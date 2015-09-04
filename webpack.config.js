@@ -1,4 +1,6 @@
 var fs = require("fs");
+var WebpackOnBuildPlugin = require('on-build-webpack');
+var spawn = require("child_process").spawn;
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -22,8 +24,14 @@ module.exports = {
       {
         test: /\.jsx?$/, // check for .js or .jsx files
         exclude: /node_modules/,
-        loaders: ['babel', 'flowcheck']
+        loaders: ['babel']
       }
     ]
-  }
+  },
+  plugins: [
+    new WebpackOnBuildPlugin(function(x) {
+      console.log("child process2");
+      spawn("flow", [], {stdio: "inherit"});
+    })
+  ]
 }
