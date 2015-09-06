@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t="isomorphic-flow-starter" .
+docker build -t="lingz/isomorphic-flux-starter" .

@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "express": "^4.13.3",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-redux": "^2.1.0",
+    "redux": "^2.0.0"
   }
 }

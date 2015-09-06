@@ -13,10 +13,3 @@ app.get("/", (req, res) => {
 var server = app.listen(port, () => {
   console.log('Listening on port %d', port);
 })
-
-var x = 1;
-var y = (x: string) => {
-  return x + "";
-}
-
-y(x);

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Starts the code
-# Mounts this directory inside the image
+# Cleans up lingering containers
 
-docker rm -f isomorphic-flow-starter
+docker rm -f lingz/isomorphic-flux-starter
