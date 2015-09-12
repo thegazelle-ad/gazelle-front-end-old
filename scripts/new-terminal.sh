@@ -2,4 +2,4 @@
 
 # Attaches another terminal to an existing terminal
 
-docker exec -i -t isomorphic-flux-starter bash
+docker exec -i -t gazelle-front-end bash
