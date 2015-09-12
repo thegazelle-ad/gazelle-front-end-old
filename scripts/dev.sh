@@ -9,4 +9,4 @@ PORT=${PORT:-3000}
 docker run -i -t --rm \
   -p $PORT:3000 \
   --name isomorphic-flux-starter \
-  -v $DIR/../:/srv/isomorphic-flow-starter/ lingz/isomorphic-flux-starter
+  -v $DIR/../:/srv/isomorphic-flux-starter/ lingz/isomorphic-flux-starter
