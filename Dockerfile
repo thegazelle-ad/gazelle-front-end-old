@@ -14,8 +14,8 @@ RUN apt-get install -y libelf-dev unzip \
     && curl http://flowtype.org/downloads/flow-linux64-latest.zip > /opt/flow.zip && unzip /opt/flow.zip -d /opt \
     && echo "\nPATH=\"\$PATH:/opt/flow/\"" >> ~/.bashrc
 
-ADD . /srv/isomorphic-flow-starter
-WORKDIR /srv/isomorphic-flow-starter
+ADD . /srv/gazelle-front-end
+WORKDIR /srv/gazelle-front-end
 
 # Add node modules to the path
 RUN echo "\nPATH=\"\$PATH:`npm bin`\"" >> ~/.bashrc
