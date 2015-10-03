@@ -20,9 +20,13 @@
   },
   "dependencies": {
     "express": "^4.13.3",
+    "history": "^1.11.1",
     "immutable": "^3.7.5",
     "react": "^0.13.3",
+    "react-dom": "^0.14.0-rc1",
     "react-redux": "^2.1.0",
-    "redux": "^2.0.0"
+    "react-router": "^1.0.0-rc1",
+    "redux": "^2.0.0",
+    "redux-router": "^1.0.0-beta3"
   }
 }
