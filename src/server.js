@@ -1,29 +1,39 @@
 /* @flow */
 
 import express from "express";
-import { storeFactory } from "./store.js";
 import { SET_LOCATION } from "./actions.js";
 import React from 'react';
-import MainComponent from "./MainComponent.jsx";
+
+import createLocation from 'history/lib/createLocation'
+import { RoutingContext, match } from 'react-router'
+import routes from './routes'
 
 var app = express();
 
 var port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  var location = req.query.location;
+app.get("*", (req, res) => {
+  var location = createLocation(req.url);
+
+  match({ routes, location }, (error, redirectLocation, renderProps) => {
+    res.send(
+      React.renderToString(
+        <RoutingContext {...renderProps} />
+      )
+    );
+  });
 
   // Generate a store singleton
-  var store = storeFactory();
+  //var store = storeFactory();
 
-  // Dispatch the action
-  store.dispatch({ type: SET_LOCATION, value: location })
+  //// Dispatch the action
+  //store.dispatch({ type: SET_LOCATION, value: location })
 
-  // Render the component serverside
-  var mainComponent = <MainComponent location={store.getState().get("location")} />
-  res.send(
-    React.renderToString(mainComponent)
-  );
+  //// Render the component serverside
+  //var mainComponent = <MainComponent/>
+  //res.send(
+    //React.renderToString(mainComponent)
+  //);
 });
 
 var server = app.listen(port, () => {
