@@ -2,4 +2,4 @@
 
 # Cleans up lingering containers
 
-docker rm -f isomorphic-flux-starter
+docker rm -f gazelle-front-end

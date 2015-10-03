@@ -1,7 +1,7 @@
 {
-  "name": "isomorphic-flux-react-starter",
+  "name": "gazelle-front-end",
   "version": "1.0.0",
-  "description": "Starter kit for react with isomorphic redux flux rendering, Jest unit testing, Flow typechecking, and wepback building with hot module reloads",
+  "description": "Gazelle front end web server",
   "main": "build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lingz/isomorphic-flux-starter.git"
+    "url": "https://github.com/thegazelle-ad/gazelle-front-end.git"
   },
   "devDependencies": {
     "babel-core": "^5.8.23",

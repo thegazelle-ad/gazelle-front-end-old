@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t="lingz/isomorphic-flux-starter" .
+docker build -t="thegazelle/gazelle-front-end" .
