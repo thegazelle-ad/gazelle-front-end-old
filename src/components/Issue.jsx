@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-export default class AppComponent extends Component {
+export default class Issue extends Component {
   render() {  
     return (
       <div>
-        <h1>Hello World</h1>
+        <h1>This is the Issue route.</h1>
       </div>
     );
   }
