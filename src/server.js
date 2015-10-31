@@ -1,19 +1,20 @@
 /* @flow */
 
-import express from "express"
-import { storeFactory } from "./store.js"
-import { SET_LOCATION } from "./actions.js"
 import React from "react"
+import express from "express"
 import App from "./components/App.jsx"
 import Issue from "./components/Issue.jsx"
 import Article from "./components/Article.jsx"
+import { Provider } from "react-redux"
+import { storeFactory } from "./store.js"
+import { SET_LOCATION } from "./actions.js"
+import ReactDOMServer from "react-dom/server"
 import { Route, Routes, Router } from "react-router"
-import { RoutingContext, match } from "react-router"
-import createLocation from 'history/lib/createLocation'
-import createHistory from 'history/lib/createBrowserHistory';
-import { renderToString } from 'react-dom/server'
+import { combineReducers, compose, createStore } from "redux";
+import { reduxReactRouter, match } from 'redux-router/server';
+import { routerStateReducer, ReduxRouter } from 'redux-router';
 
-var app = express();
+var server = express();
 
 var port = process.env.PORT || 3000;
 
@@ -24,36 +25,26 @@ var routes = (
   </Route>
 );
 
-app.get("*", (req, res) => {
-  var location = createLocation(req.url);
-  console.log(location, routes);
-  match({ routes, location }, (error, redirectLocation, renderProps) => {
-    console.log(renderProps);
-    console.log(<RoutingContext {...renderProps} />);
-    
-    res.send(React.renderToString(<RoutingContext {...renderProps} />))
-  })
-
-
-  // // Generate a store singleton
-  // var store = storeFactory();
-
-  // // Dispatch the action
-  // store.dispatch({ type: SET_LOCATION, value: location })
-
-
-  // // Render the component serverside
-  // var mainComponent = <MainComponent location={store.getState().get("location")} />
-  // Router.renderRoutesToString(
-  //   <Routes initialPath="/" location="history">
-  //     {routes}
-  //   </Routes>
-  // , req.url, req.query).then((data) => {
-  //   res.send(data.html);
-  // })
+const reducer = combineReducers({
+  router: routerStateReducer
 });
 
-var server = app.listen(port, () => {
+server.get("*", (req, res) => {
+  const store = compose(
+    reduxReactRouter({
+      routes
+    })
+  )(createStore)(reducer);
+
+  store.dispatch(match(req.url, (error, redirectLocation, renderProps) => {
+    // var app = <div>"Hello"</div>
+    var app = <Provider store={store}><ReduxRouter {...renderProps} /></Provider>;
+    console.log(store.getState());
+    var html = ReactDOMServer.renderToString(app);
+    res.status(200).send(html);
+  }));
+});
+
+server.listen(port, () => {
   console.log('Listening on port %d', port);
-})
-// 
+});
