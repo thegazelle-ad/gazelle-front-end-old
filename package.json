@@ -13,8 +13,10 @@
     "url": "https://github.com/thegazelle-ad/gazelle-front-end.git"
   },
   "devDependencies": {
-    "babel-core": "^5.8.23",
-    "babel-loader": "^5.3.2",
+    "babel-core": "^6.2.0",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
     "on-build-webpack": "^0.1.0",
     "redux-devtools": "^2.1.5",
     "webpack": "^1.12.1"
@@ -23,11 +25,11 @@
     "express": "^4.13.3",
     "history": "^1.11.1",
     "immutable": "^3.7.5",
-    "react": "^0.14.0-rc1",
-    "react-dom": "^0.14.0-rc1",
-    "react-redux": "^2.1.0",
-    "react-router": "^1.0.0-rc3",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^2.1.2",
+    "react-router": "^1.0.0",
     "redux": "^2.0.0",
-    "redux-router": "^1.0.0-beta3"
+    "redux-router": "^1.0.0-beta4"
   }
 }
