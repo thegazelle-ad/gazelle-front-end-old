@@ -8,6 +8,7 @@ export default class Issue extends Component {
     return (
       <div>
         <h1>This is the Issue route.</h1>
+        {this.props.children}
       </div>
     );
   }

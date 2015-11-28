@@ -56,8 +56,9 @@ server.get("*", (req, res) => {
     var app = <Provider store={store}><ReduxRouter {...renderProps} /></Provider>;
     console.log(store.getState());
     // var html = ReactDOMServer.renderToString(app);
-    var html = "<html><body><div id='root'></div><script src='/client.js'></script>"
-             + ReactDOMServer.renderToString(app) + "</body></html>";
+    var html = "<html><body><div id='root'>" +
+             + ReactDOMServer.renderToString(app) +
+             "</div><script src='/client.js'></script></body></html>";
     res.status(200).send(html);
   }));
 });
