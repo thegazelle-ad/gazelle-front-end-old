@@ -1,69 +1,58 @@
 /* @flow */
-
 import React from "react"
-import http from "http"
 import express from "express"
+import { Provider } from "react-redux"
+import { storeFactory } from "./store.js"
+import ReactDOMServer from "react-dom/server"
+import { createStore, combineReducers, compose } from "redux"
+import { Route, Routes, Router, RoutingContext, match } from "react-router"
+import { routerStateReducer, ReduxRouter } from "redux-router"
+import { routeReducer } from "redux-simple-router"
+import createLocation from "history/lib/createLocation"
+
 import App from "./components/App.jsx"
 import Issue from "./components/Issue.jsx"
 import Article from "./components/Article.jsx"
-import { Provider } from "react-redux"
-import { storeFactory } from "./store.js"
-import { SET_LOCATION } from "./actions.js"
-import ReactDOMServer from "react-dom/server"
-import { Route, Routes, Router } from "react-router"
-import { combineReducers, compose, createStore } from "redux"
-import { reduxReactRouter, match } from 'redux-router/server'
-import { routerStateReducer, ReduxRouter } from 'redux-router'
-import createMemoryHistory from 'history/lib/createMemoryHistory'
-import createLocation from 'history/lib/createLocation'
-
-
+var location;
 var server = express();
+server.use(express.static('build'));
 
 var port = process.env.PORT || 3000;
+
+const reducer = function(state, action) {
+  console.log("Reducer called");
+  console.log(state);
+  return state;
+};
+
+const store = createStore(reducer);
 
 var routes = (
   <Route path="/" component={App}>
     <Route path="issues" component={Issue} />
-      <Route path="issues/articles" component={Article} />
+      <Route path="issues/article" component={Article} />
   </Route>
 );
 
-console.log("Here is memoryHistory");
-console.log(createMemoryHistory)
-
-const reducer = combineReducers({
-  router: routerStateReducer
-});
-
-server.use(express.static('build'));
-
 server.get("*", (req, res) => {
-  const store = compose(
-    reduxReactRouter({
-      routes: routes,
-      createHistory: createMemoryHistory
-    })
-  )(createStore)(reducer);
-
-  const location = createLocation(req.url);
-  console.log("Here are details");
-  console.log(store);
-  console.log(req.url);
-  console.log(location);
-
-  store.dispatch(match(location, (error, redirectLocation, renderProps) => {
-    var app = <Provider store={store}><ReduxRouter {...renderProps} /></Provider>;
-    console.log(store.getState());
-    // var html = ReactDOMServer.renderToString(app);
+  location = createLocation(req.url);
+  match({ routes, location }, (error, redirectLocation, renderProps) => {
+    var app = <Provider store={store}><RoutingContext {...renderProps} /></Provider>;
     var html = "<html><body><div id='root'>" +
              + ReactDOMServer.renderToString(app) +
              "</div><script src='/client.js'></script></body></html>";
-    res.status(200).send(html);
-  }));
+    if (error) {
+      res.status(500).send(error.message)
+    } else if (redirectLocation) {
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+    } else if (renderProps) {
+      res.status(200).send(html);
+    } else {
+      res.status(404).send('Not found')
+    }
+  });
 });
 
 server.listen(port, () => {
   console.log('Listening on port %d', port);
 });
-
